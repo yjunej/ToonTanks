@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 ATank::ATank()
 {
@@ -27,6 +28,21 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ATank::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	FHitResult HitResult;
+	PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
+	RotateTurret(HitResult.ImpactPoint);
+	DrawDebugSphere(
+		GetWorld(),
+		HitResult.ImpactPoint,
+		30.0f,
+		12,
+		FColor::Red
+	);
+}
+
 
 
 void ATank::BeginPlay()
@@ -40,7 +56,7 @@ void ATank::Move(float Value)
 	FVector DeltaLocation = FVector::ZeroVector;
 	float DeltaSeconds = UGameplayStatics::GetWorldDeltaSeconds(this);
 	DeltaLocation.X = Speed * DeltaSeconds * Value;
-	AddActorLocalOffset(DeltaLocation, true)	;
+	AddActorLocalOffset(DeltaLocation, true);
 }
 
 void ATank::Turn(float Value)
