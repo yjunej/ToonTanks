@@ -21,10 +21,6 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	UPROPERTY(EditAnywhere)
-	float MaxHealth = 100.f;
-
-
 	UFUNCTION()
 	void DamageTaken(
 		AActor* DamagedActor,
@@ -32,7 +28,14 @@ private:
 		const UDamageType* DamageType,
 		AController* InstigatedBy,
 		AActor* DamageCauser);
+
+	UPROPERTY(EditAnywhere)
+	float MaxHealth = 100.f;
+
 	float Health = 0.f;
+
+	class AToonTanksGameMode* ToonTanksGameMode;
+
 
 
 

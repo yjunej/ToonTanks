@@ -5,7 +5,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "DrawDebugHelpers.h"
 
 ATank::ATank()
 {
@@ -32,15 +31,15 @@ void ATank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	FHitResult HitResult;
-	PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
+	TankPlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
 	RotateTurret(HitResult.ImpactPoint);
-	DrawDebugSphere(
-		GetWorld(),
-		HitResult.ImpactPoint,
-		30.0f,
-		12,
-		FColor::Red
-	);
+}
+
+void ATank::HandleDestruction()
+{
+	Super::HandleDestruction();
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
 }
 
 
@@ -48,7 +47,7 @@ void ATank::Tick(float DeltaTime)
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerControllerRef = Cast<APlayerController>(GetController());
+	TankPlayerController = Cast<APlayerController>(GetController());
 }
 
 void ATank::Move(float Value)

@@ -15,9 +15,9 @@ class TOONTANKS_API ATower : public ABasePawn
 	GENERATED_BODY()
 	
 public:
-	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void HandleDestruction();
 
 protected:
 	// Called when the game starts or when spawned

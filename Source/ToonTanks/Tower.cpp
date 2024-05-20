@@ -16,6 +16,11 @@ void ATower::Tick(float DeltaTime)
 	}
 }
 
+void ATower::HandleDestruction()
+{
+	Destroy();
+}
+
 void ATower::BeginPlay()
 {
 	Super::BeginPlay();
