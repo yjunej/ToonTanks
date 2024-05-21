@@ -30,13 +30,21 @@ void ABasePawn::HandleDestruction()
 {
 	if (DeadParticles)
 	{
-
-	UGameplayStatics::SpawnEmitterAtLocation(
-		this,
-		DeadParticles,
-		GetActorLocation(),
-		GetActorRotation()
+		UGameplayStatics::SpawnEmitterAtLocation(
+			this,
+			DeadParticles,
+			GetActorLocation(),
+			GetActorRotation()
 		);
+	}
+	if (DeathSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+	}
+	if (DeathCameraShake)
+	{
+		GetWorld()->GetFirstPlayerController()->
+			ClientStartCameraShake(DeathCameraShake);
 	}
 }
 
